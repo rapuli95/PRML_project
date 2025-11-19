@@ -41,9 +41,9 @@ def train(model: NeuralNetwork,
 
             # Update model parameters
             for layer in model.layers: 
-                if layer.parameters is None or layer.gradients is None: continue
-                layer.parameters = (p - learning_rate * np.clip(g, -10, 10) for p, g in zip(layer.parameters, layer.gradients))
-
+                layer.weights -= learning_rate * layer.grad_weights
+                layer.biases -= learning_rate * layer.grad_biases
+               
         # Record model loss and accuracy
         y_pred = model.forward(X_val)
         loss_history.append(criterion.forward(y_val, y_pred))

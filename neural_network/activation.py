@@ -3,17 +3,15 @@ from numpy.typing import NDArray
 
 # Define activation function parent class
 class Activation: 
-    def __init__(self): 
-        # Set parameters to None (training loop)
-        self.parameters, self.gradients = None, None
+    def __init__(self): pass
 
-    # Define forward propagation method
+    # Define forward propagation method signature
     def forward(self, X: NDArray) -> NDArray: pass
 
-    # Define backwards propagation method
+    # Define backwards propagation method signature
     def backward(self, grad: NDArray) -> NDArray: pass
     
-    # Define forward-method shortcut
+    # Define forward-method shortcut 
     def __call__(self, X: NDArray) -> NDArray: return self.forward(X)
 
 # Define ReLU activation
@@ -40,5 +38,6 @@ class Softmax(Activation):
         return self.probs
 
     def backward(self, grad: NDArray) -> NDArray:
+        assert self.probs is not None, 'forward pass needs to be made before backwards pass'
         dot_product = np.sum(grad * self.probs, axis=-1, keepdims=True)
         return self.probs * (grad - dot_product)
