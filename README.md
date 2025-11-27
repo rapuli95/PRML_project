@@ -65,6 +65,7 @@ The folder "SVM" includes one folder and one file:
 0-9
 - takes the new digit and compares it trained models
 - predicts the label of the digit
+⟶ import pandas, numpy, scikit-learn, cvxopt, itertools, random
 **parquets**
 - each parquet contains the 100 samples of the digit
 
