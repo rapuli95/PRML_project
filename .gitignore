@@ -1,4 +1,4 @@
 *.csv
 *.mat
-images/*
-plots/*
+preprocessing/images/*
+preprocessing/plots/*
