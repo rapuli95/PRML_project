@@ -58,6 +58,15 @@ The folder "main" includes two files:
 - saves the images
 
 ## 2) Support Vector Machine
+The folder "SVM" includes one folder and one file:
+**svm_classifier.ipynb**
+- interpolates the data
+- implements SVM, creating binary classification for all combinations
+0-9
+- takes the new digit and compares it trained models
+- predicts the label of the digit
+**parquets**
+- each parquet contains the 100 samples of the digit
 
 
 ## 3) Random Forest
