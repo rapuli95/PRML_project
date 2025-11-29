@@ -2,3 +2,5 @@
 *.mat
 preprocessing/images/*
 preprocessing/plots/*
+.venv
+requirements.txt
