@@ -48,4 +48,9 @@ def preprocess_samples(samples: List[NDArray|pd.DataFrame], img_size=DEFAULT_IMA
 def NN_preprocess_samples(samples: List[NDArray|pd.DataFrame], target_len: int=256) -> NDArray: 
     assert target_len > 0, "Target length must be greater than 0"
     samples = [s.to_numpy() if isinstance(s, pd.DataFrame) else s for s in samples]
-    return np.array([min_max_scale(resample(s, target_len)).flatten() for s in samples])
+    X = [s.to_numpy() if isinstance(s, pd.DataFrame) else s for s in samples ]
+    X = [resample(np.array(s), target_len) for s in X]
+    X = [x.flatten() for x in X]
+    X = [min_max_scale(x) for x in X]
+    return np.array(X)
+     

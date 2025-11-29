@@ -33,10 +33,21 @@ def resample(sample: NDArray, target_length: int):
     if len(sample) > target_length: 
 
         # Return a randomly selected subset of the sample
-        index = np.random.choice(len(sample), target_length).sort()
+        index = np.sort(np.random.choice(len(sample), target_length))
         return sample[index]
     
     else: 
 
         # Interpolate new datapoints
         return interpolate_sample(sample, target_length)
+    
+# Define function to interpolate a sample
+def resample2(sample: NDArray, target_length: int):
+    assert target_length > 0, "Target length has to be greater than 0"
+    if isinstance(sample, pd.DataFrame): sample = sample.to_numpy()
+
+    # Interpolate sample to double the target length
+    sample = interpolate_sample(sample, target_length * 2)
+
+    # Return a resampled sample with every other data point
+    return sample[0::2]

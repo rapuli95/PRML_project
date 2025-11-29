@@ -9,7 +9,8 @@ from .loss import Loss, CategoricalCrossEntropySoftmax
 # Define neural network training loop 
 def train(model: NeuralNetwork, 
           X_train: NDArray, y_train: NDArray, X_val: NDArray|None=None, y_val: NDArray|None=None,
-          criterion: Loss=CategoricalCrossEntropySoftmax, learning_rate: float=0.001, batch_size: int=10, 
+          criterion: Loss=CategoricalCrossEntropySoftmax, 
+          learning_rate: float=0.001, decay: float=0.001, batch_size: int=10, 
           max_iter: int=1000, tol: float=0.001, min_loss: float=1e-10, verbose: bool=False
     ) -> NDArray: 
     
@@ -41,8 +42,8 @@ def train(model: NeuralNetwork,
 
             # Update model parameters
             for layer in model.layers: 
-                layer.weights -= learning_rate * layer.grad_weights
-                layer.biases -= learning_rate * layer.grad_biases
+                layer.weights -= learning_rate * (layer.grad_weights + decay * layer.weights)
+                layer.biases -= learning_rate * (layer.grad_biases) # + decay * layer.biases)
                
         # Record model loss and accuracy
         y_pred = model.forward(X_val)
