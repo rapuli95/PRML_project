@@ -1,3 +1,5 @@
+# credit source:
+# https://github.com/AssemblyAI-Community/Machine-Learning-From-Scratch/tree/main/05%20Random%20Forests
 import numpy as np
 from collections import Counter
 
