@@ -4,6 +4,8 @@ from numpy.typing import NDArray
 
 # Define function to interpolate a sample
 def interpolate_sample(sample: NDArray, target_length: int):
+    if isinstance(sample, pd.DataFrame): sample = sample.to_numpy()
+    if len(sample) == target_length: return sample
     
     # Cumulative arc length
     diffs = np.diff(sample, axis=0)
@@ -21,3 +23,20 @@ def interpolate_sample(sample: NDArray, target_length: int):
     
     # Return interpolated sample
     return interpolated
+
+# Define function to interpolate a sample
+def resample(sample: NDArray, target_length: int):
+    assert target_length > 0, "Target length has to be greater than 0"
+    if isinstance(sample, pd.DataFrame): sample = sample.to_numpy()
+
+    # Check if sample is longer or shorter than target length
+    if len(sample) > target_length: 
+
+        # Return a randomly selected subset of the sample
+        index = np.random.choice(len(sample), target_length).sort()
+        return sample[index]
+    
+    else: 
+
+        # Interpolate new datapoints
+        return interpolate_sample(sample, target_length)
