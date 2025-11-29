@@ -3,9 +3,10 @@ import numpy as np
 import pandas as pd
 from numpy.typing import NDArray
 from typing import Optional, List
-from .interpolate import interpolate_sample
+from .interpolate import interpolate_sample, resample
 from .project_to_2d import project_to_2d
 from .convert_to_image import convert_to_image
+from .scaling import min_max_scale
 
 DEFAULT_IMAGE_SIZE = (16, 16)
 
@@ -43,3 +44,8 @@ def preprocess_samples(samples: List[NDArray|pd.DataFrame], img_size=DEFAULT_IMA
     target_len = max([len(s) for s in samples])
     X = np.array([preprocess(s, target_len=target_len, img_size=img_size) for s in samples])
     return X
+
+def NN_preprocess_samples(samples: List[NDArray|pd.DataFrame], target_len: int=256) -> NDArray: 
+    assert target_len > 0, "Target length must be greater than 0"
+    samples = [s.to_numpy() if isinstance(s, pd.DataFrame) else s for s in samples]
+    return np.array([min_max_scale(resample(s, target_len)).flatten() for s in samples])
