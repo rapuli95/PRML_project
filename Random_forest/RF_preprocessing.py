@@ -4,6 +4,7 @@ from typing import Optional, List
 import os
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 # Define a function to load samples
 def load_samples(dir_path: str) -> dict: 
@@ -17,6 +18,8 @@ def load_samples(dir_path: str) -> dict:
 
 # Define function to interpolate a sample
 def interpolate_sample(sample: NDArray, target_length: int):
+    if isinstance(sample, pd.DataFrame): sample = sample.to_numpy()
+    if len(sample) == target_length: return sample
     
     # Cumulative arc length
     diffs = np.diff(sample, axis=0)
@@ -34,6 +37,23 @@ def interpolate_sample(sample: NDArray, target_length: int):
     
     # Return interpolated sample
     return interpolated
+
+# Define function to interpolate a sample
+def resample(sample: NDArray, target_length: int):
+    assert target_length > 0, "Target length has to be greater than 0"
+    if isinstance(sample, pd.DataFrame): sample = sample.to_numpy()
+
+    # Check if sample is longer or shorter than target length
+    if len(sample) > target_length: 
+
+        # Return a randomly selected subset of the sample
+        index = np.random.choice(len(sample), target_length).sort()
+        return sample[index]
+    
+    else: 
+
+        # Interpolate new datapoints
+        return interpolate_sample(sample, target_length)
 
 
 
@@ -72,7 +92,7 @@ def preprocess(sample: NDArray|pd.DataFrame, use_interpolation: bool=True,
 
     # Interpolate sample (if target len was provided)
     if use_interpolation:
-        sample = interpolate_sample(sample, target_len)
+        sample = resample(sample, target_len)
 
     # Project sample to 2D (use PCA or take the first 2 dimensions)
     sample = project_to_2d(sample) if use_PCA else sample[:, :2]
@@ -82,7 +102,9 @@ def preprocess(sample: NDArray|pd.DataFrame, use_interpolation: bool=True,
 
 
 # Define function to preprocess multiple samples
-def preprocess_samples(samples: List[NDArray|pd.DataFrame]) -> NDArray: 
-    target_len = max([len(s) for s in samples])
+def preprocess_samples(samples: List[NDArray|pd.DataFrame], target_len: int=256) -> NDArray: 
+    assert target_len > 0, "Target length must be greater than 0"
     X = np.array([preprocess(s, target_len=target_len) for s in samples])
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
     return X
