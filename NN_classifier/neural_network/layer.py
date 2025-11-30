@@ -38,6 +38,6 @@ class Dense(Layer):
         assert grad.ndim==2 and grad.shape==(len(self.X), len(self.biases)), 'grad has invalid dimensionality'        
         grad_activation = self.activation.backward(grad) # Compute the gradient of the activation wrt. loss
         self.grad_weights = self.X.T @ grad_activation # Compute the gradient of weights wrt. loss
-        self.grad_bias = np.sum(grad_activation, axis=0) # Compute the gradient of biases wrt. loss
+        self.grad_biases = np.sum(grad_activation, axis=0) # Compute the gradient of biases wrt. loss
         return grad_activation @ self.weights.T # Return the gradient of inputs wrt. loss
     
