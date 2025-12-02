@@ -80,10 +80,10 @@ def train_and_save_svm_classifier(X_train, y_train):
       'combinations': all_combi
   }
   # pickle the models
-  with open("svm_classifier.pkl", "wb") as f:
+  with open(os.path.join("trained_models", "svm_classifier.pkl"), "wb") as f:
       pickle.dump(classifier_package, f)
 
-def svm_predict(unknown_digit,  model_file="svm_classifier.pkl"):
+def svm_predict(unknown_digit, model_file=os.path.join("trained_models", "svm_classifier.pkl")):
   """
   Loads trained models
   Predicts the digit

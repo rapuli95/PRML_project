@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 
-from train_data_process import interpolate_data
+from .train_data_process import interpolate_data
 
 
 # Define a function to load samples
