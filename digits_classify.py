@@ -7,12 +7,17 @@ from sklearn.model_selection import train_test_split
 from numpy.typing import NDArray
 from pandas import DataFrame
 
-# IMPORTANT: add NN_classifier to path
+# IMPORTANT: add implementations to path
 sys.path.append("NN_classifier")
+sys.path.append("Random_forest")
 
 # Import neural network implementation
-from neural_network import NeuralNetworkClassifier
-from NN_preprocessing import NN_preprocess_samples, load_samples
+from NN_classifier.neural_network import NeuralNetworkClassifier
+from NN_classifier.NN_preprocessing import NN_preprocess_samples as NN_preprocessing, load_samples
+
+# Import random forest implementation
+from Random_forest.RandomForest import RandomForest
+from Random_forest.RF_preprocessing import preprocess_samples as RF_preprocessing
 
 # Define default model
 DEFAULT_MODEL = os.path.join("trained_models", "NN_classifier_d5_p1186826_e2000_98_20251202_0112_deeplearning.pkl")
@@ -29,8 +34,10 @@ def digits_classify(test_data: NDArray|list[NDArray|DataFrame], model_path: str=
         return None
     
     # Choose preprocessing pipeline according to model type
-    if isinstance(model, NeuralNetworkClassifier): 
-        preprocess_samples = NN_preprocess_samples
+    if "NeuralNetworkClassifier" in str(type(model)): 
+        preprocess_samples = NN_preprocessing
+    elif "RandomForest" in str(type(model)): 
+        preprocess_samples = RF_preprocessing
     else: 
         raise NotImplementedError
     
