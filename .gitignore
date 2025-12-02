@@ -4,3 +4,8 @@ preprocessing/images/*
 preprocessing/plots/*
 .venv
 requirements.txt
+NN_classifier/results/d*
+NN_classifier/results/2*
+NN_classifier/results/3*
+NN_classifier/results/4*
+NN_classifier/results/5*

@@ -26,6 +26,9 @@ class ReLU(Activation):
     def backward(self, grad: NDArray) -> NDArray: 
         assert self.X is not None, 'forward pass needs to be made before backwards pass'
         return (self.X > 0) * grad
+    
+    def __repr__(self) -> str: 
+        return "ReLU"
 
 # Define Softmax activation    
 class Softmax(Activation):
@@ -41,3 +44,6 @@ class Softmax(Activation):
         assert self.probs is not None, 'forward pass needs to be made before backwards pass'
         dot_product = np.sum(grad * self.probs, axis=-1, keepdims=True)
         return self.probs * (grad - dot_product)
+    
+    def __repr__(self) -> str: 
+        return "Softmax"
