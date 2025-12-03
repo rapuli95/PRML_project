@@ -43,7 +43,7 @@ def train(model: NeuralNetwork,
             # Update model parameters
             for layer in model.layers: 
                 layer.weights -= learning_rate * (layer.grad_weights + decay * layer.weights)
-                layer.biases -= learning_rate * layer.grad_biases # + decay * layer.biases)
+                layer.biases -= learning_rate * (layer.grad_biases + decay * layer.biases)
                
         # Record model loss and accuracy
         y_pred = model.forward(X_val)
