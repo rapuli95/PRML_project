@@ -69,25 +69,6 @@ gradients. Returns criterion history and accuracy history.
 - function one_hot_encode, returns labels encoded  
 ⟶  import from numpy
 
-The folder "main" includes two files:
-
-**nn_classifier.ipynb**
-- loads the data
-- applies PCA (3D to 2D)
-- converts data to images
-- flattens images to vectors and labels to an array
-- splits data to training and testing sets
-- trains models
-- combines the prepreprocessing pipeline and NN classifier to a single function  
-⟶ import os, np, pd, matplotlib, sklearn, typing, neural_network.py
-
-**preprocessing_pipeline.ipynb**
-- loads the data
-- saves every samples as .png
-- applies PCA (3D to 2D)
-- converts data to images
-- saves the images
-
 ## 2) Support Vector Machine
 The folder "SVM" includes one folder and one file:
 **svm_classifier.ipynb**
