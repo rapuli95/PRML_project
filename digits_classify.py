@@ -64,8 +64,8 @@ def digits_classify(test_data: NDArray|list[NDArray|DataFrame], model_path: str=
     else: 
         raise NotImplementedError
 
-    # Return predicted classes
-    return predicted_classes
+    # Return predicted classes 
+    return predicted_classes if len(predicted_classes) > 1 else int(predicted_classes[0])
 
 # Test classification function
 if __name__ == "__main__": 
